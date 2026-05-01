@@ -49,7 +49,7 @@ Ce service gère la base de données des produits.
 Invoke-RestMethod -Uri http://localhost:3000/products -Method Post -Headers @{"Content-Type"="application/json"} -Body '{"name": "Laptop Pro", "price": 1500, "stock": 10}'
 ```
 
-![Capture d'écran Étape 1A](etape1A.png)
+![Capture d'écran Étape 1A](createnouveauproduit.png)
 
 
 **B. Lister les produits disponibles :**
@@ -58,7 +58,7 @@ Invoke-RestMethod -Uri http://localhost:3000/products -Method Post -Headers @{"C
 Invoke-RestMethod -Uri http://localhost:3000/products -Method Get
 ```
 
-![Capture d'écran Étape 1B](etape1B.png)
+![Capture d'écran Étape 1B](listelesproduitsdesponible.png)
 
 
 ### Étape 2 : Tester `order-service` -> `stock-service` (Validation gRPC)
@@ -71,7 +71,7 @@ L'`order-service` est un orchestrateur. Il communique avec le `stock-service` vi
 Invoke-RestMethod -Uri http://localhost:3001/orders -Method Post -Headers @{"Content-Type"="application/json"} -Body '{"productId": 1, "quantity": 2, "customerEmail": "john@test.com"}'
 ```
 
-![Capture d'écran Étape 2A](etape2A.png)
+![Capture d'écran Étape 2A](commandevalide.png)
 
 *(Cela réussit, le `stock-service` déduit la quantité en interne et la commande est sauvegardée).*
 
@@ -81,7 +81,7 @@ Invoke-RestMethod -Uri http://localhost:3001/orders -Method Post -Headers @{"Con
 Invoke-RestMethod -Uri http://localhost:3001/orders -Method Post -Headers @{"Content-Type"="application/json"} -Body '{"productId": 3, "quantity": 200, "customerEmail": "erreur@test.com"}'
 ```
 
-![Capture d'écran Étape 2B](etape2B.png)
+![Capture d'écran Étape 2B](commandeinvalide.png)
 
 *(Ceci échouera avec une erreur 409 Insufficient stock, ce qui prouve que le protocole gRPC fonctionne parfaitement).*
 
@@ -108,7 +108,7 @@ Le service GraphQL permet de récupérer les données consolidées du catalogue 
 Invoke-RestMethod -Uri http://localhost:3002/graphql -Method Post -Headers @{"Content-Type"="application/json"} -Body '{"query": "{ products { id name price stock } orders { id productId status customerEmail } }"}'
 ```
 
-![Capture d'écran Étape 4A](etape4.png)
+![Capture d'écran Étape 4A](testviapowershell.png)
 
 
 **B. Tester via l'interface web (Apollo Sandbox) :**
@@ -134,9 +134,9 @@ query {
 
 3. Cliquez sur le bouton "Run" et vous verrez le résultat combiné de vos microservices.
 
-![Interface Apollo Sandbox](partie4B1.png)
+![Interface Apollo Sandbox](interfaceapplosendbox.png)
 
-![Résultat de la requête](etape4b2.png)
+![Résultat de la requête](resultaderequete.png)
 
 
 ---
